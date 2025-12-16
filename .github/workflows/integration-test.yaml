@@ -48,17 +48,28 @@ jobs:
           docker run --rm $IMAGE_NAME:$IMAGE_TAG ls /$SOURCE_REPO_NAME/console
 
       - name: Run test basic
-        run: ./script/integration-test-script/integration-test.sh basic
+        run: |
+          cd $COMPOSE_REPO_NAME
+          ./script/integration-test-script/integration-test.sh basic
 
       - name: Run test dc-static
-        run: ./script/integration-test-script/integration-test.sh dc-static
+        run: 
+          cd $COMPOSE_REPO_NAME
+          ./script/integration-test-script/integration-test.sh dc-static
 
       - name: Run test dc-dynamic
-        run: ./script/integration-test-script/integration-test.sh dc-dynamic
+        run: |
+          cd $COMPOSE_REPO_NAME
+          ./script/integration-test-script/integration-test.sh dc-dynamic
 
       - name: Run test ulcl
-        run: ./script/integration-test-script/integration-test.sh ulcl
+        run: |
+          cd $COMPOSE_REPO_NAME
+          ./script/integration-test-script/integration-test.sh ulcl
 
       - name: Clean up docker resources
         if: always()
-        run: docker system prune -a -f --volumes
+        run: |
+          cd ..
+          rm -rf $COMPOSE_REPO_NAME
+          docker system prune -a -f --volumes
