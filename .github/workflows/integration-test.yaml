@@ -34,7 +34,7 @@ jobs:
           git clone $SOURCE_REPO_URL $SOURCE_REPO_NAME
           cd $SOURCE_REPO_NAME
           git fetch origin +${{ github.ref }}:refs/remotes/origin/pr
-          git checkout ${{ github.sha }}
+          git checkout origin/pr
 
       - name: Build free-ran-ue image
         run: |
