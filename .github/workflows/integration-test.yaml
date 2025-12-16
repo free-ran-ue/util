@@ -12,6 +12,8 @@ env:
   COMPOSE_REPO_NAME: fru-compose
   SOURCE_REPO_URL: https://github.com/${{ github.repository }}.git
   SOURCE_REPO_NAME: free-ran-ue
+  IMAGE_NAME: alonza0314/free-ran-ue
+  IMAGE_TAG: test
 
 jobs:
   integration-test:
