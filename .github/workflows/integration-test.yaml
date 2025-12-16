@@ -28,7 +28,8 @@ jobs:
 
       - name: Clone fru-compose and fetch PR
         run: |
-          git clone $COMPOSE_REPO_URL
+          rm -rf $COMPOSE_REPO_NAME
+          git clone $COMPOSE_REPO_URL $COMPOSE_REPO_NAME
           cd $COMPOSE_REPO_NAME
           git clone $SOURCE_REPO_URL $SOURCE_REPO_NAME
           cd $SOURCE_REPO_NAME
