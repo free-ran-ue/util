@@ -8,10 +8,9 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: alonza0314/free-ran-ue
-  IMAGE_TAG: latest
   COMPOSE_REPO_URL: https://github.com/free-ran-ue/fru-compose.git
   COMPOSE_REPO_NAME: fru-compose
+  SOURCE_REPO_URL: https://github.com/${{ github.repository }}.git
   SOURCE_REPO_NAME: free-ran-ue
 
 jobs:
@@ -19,23 +18,25 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Check commands
         run: |
           docker --version
           curl --version
           jq --version
 
+      - name: Clone fru-compose and fetch PR
+        run: |
+          git clone $COMPOSE_REPO_URL
+          cd $COMPOSE_REPO_NAME
+          git clone $SOURCE_REPO_URL $SOURCE_REPO_NAME
+          cd $SOURCE_REPO_NAME
+          git fetch origin +${{ github.ref }}:refs/remotes/origin/pr
+          git checkout ${{ github.sha }}
+
       - name: Build free-ran-ue image
         run: |
-          cd $GITHUB_WORKSPACE/..
-          rm -rf $COMPOSE_REPO_NAME
-          git clone $COMPOSE_REPO_URL
-          cp -r $GITHUB_WORKSPACE $COMPOSE_REPO_NAME/$SOURCE_REPO_NAME
           cd $COMPOSE_REPO_NAME
-          make
+          make integration-test
 
       - name: Test free-ran-ue image
         run: |
