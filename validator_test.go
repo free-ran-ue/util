@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/free-ran-ue/free-ran-ue/v2/model"
-	"github.com/free-ran-ue/free-ran-ue/v2/util"
+	"github.com/free-ran-ue/util"
 	"github.com/free5gc/openapi/models"
 	"github.com/stretchr/testify/assert"
 )
