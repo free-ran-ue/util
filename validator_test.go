@@ -217,6 +217,12 @@ var testValidateMsinCases = []struct {
 		expectedError: nil,
 	},
 	{
+		name: "testValidMsin totol 14 digits with plmnLen 5",
+		msin: "000000001",
+		plmnLen: 5,
+		expectedError: nil,
+	},
+	{
 		name:          "testInvalidMsin 5 plmnLen",
 		msin:          "00000000010",
 		plmnLen:       5,

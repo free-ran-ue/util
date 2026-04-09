@@ -82,7 +82,7 @@ func ValidateMsin(msin string, plmnLen int) error {
 	if len(msin)+plmnLen < 10 || len(msin)+plmnLen > 15 {
 		return fmt.Errorf("invalid msin: %s, plmn + msin should be 10-15 digits, current %d digits", msin, len(msin)+plmnLen)
 	}
-	if err := ValidateIntStringWithLength(msin, 15-plmnLen); err != nil {
+	if err := ValidateIntStringWithLength(msin, len(msin)); err != nil {
 		return err
 	}
 	return nil
