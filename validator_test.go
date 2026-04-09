@@ -163,14 +163,19 @@ var testValidatePlmnIdCases = []struct {
 	expectedError error
 }{
 	{
-		name:          "testValidPlmnId",
+		name:          "testValidPlmnId 3+2",
 		plmnId:        model.PlmnIdIE{Mcc: "208", Mnc: "93"},
 		expectedError: nil,
 	},
 	{
-		name:          "testInvalidPlmnId",
+		name:          "testValidPlmnId 3+3",
 		plmnId:        model.PlmnIdIE{Mcc: "208", Mnc: "930"},
-		expectedError: fmt.Errorf("invalid mnc: 930, mnc should be 2 digits"),
+		expectedError: nil,
+	},
+	{
+		name:          "testInvalidPlmnId",
+		plmnId:        model.PlmnIdIE{Mcc: "208", Mnc: "9302"},
+		expectedError: fmt.Errorf("invalid mnc: 9302, mnc should be 2 or 3 digits"),
 	},
 	{
 		name:          "testInvalidNonIntMcc",
@@ -691,10 +696,10 @@ var testValidateTaiIeCases = []struct {
 			Tac: "000001",
 			BroadcastPlmnId: model.PlmnIdIE{
 				Mcc: "208",
-				Mnc: "930",
+				Mnc: "9300",
 			},
 		},
-		expectedError: fmt.Errorf("invalid broadcastPlmnId: invalid mnc: 930, mnc should be 2 digits"),
+		expectedError: fmt.Errorf("invalid broadcastPlmnId: invalid mnc: 9300, mnc should be 2 or 3 digits"),
 	},
 }
 

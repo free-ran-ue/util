@@ -69,10 +69,10 @@ func ValidatePlmnId(plmnId *model.PlmnIdIE) error {
 	if err := ValidateIntStringWithLength(plmnId.Mcc, 3); err != nil {
 		return err
 	}
-	if len(plmnId.Mnc) != 2 {
-		return fmt.Errorf("invalid mnc: %s, mnc should be 2 digits", plmnId.Mnc)
+	if len(plmnId.Mnc) != 2 && len(plmnId.Mnc) != 3 {
+		return fmt.Errorf("invalid mnc: %s, mnc should be 2 or 3 digits", plmnId.Mnc)
 	}
-	if err := ValidateIntStringWithLength(plmnId.Mnc, 2); err != nil {
+	if err := ValidateIntStringWithLength(plmnId.Mnc, len(plmnId.Mnc)); err != nil {
 		return err
 	}
 	return nil
