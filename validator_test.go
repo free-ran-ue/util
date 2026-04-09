@@ -201,21 +201,37 @@ func TestValidatePlmnId(t *testing.T) {
 var testValidateMsinCases = []struct {
 	name          string
 	msin          string
+	plmnLen       int
 	expectedError error
 }{
 	{
-		name:          "testValidMsin",
+		name:          "testValidMsin 5 plmnLen",
 		msin:          "0000000001",
+		plmnLen:       5,
 		expectedError: nil,
 	},
 	{
-		name:          "testInvalidMsin",
+		name:          "testValidMsin 6 plmnLen",
+		msin:          "000000001",
+		plmnLen:       6,
+		expectedError: nil,
+	},
+	{
+		name:          "testInvalidMsin 5 plmnLen",
 		msin:          "00000000010",
-		expectedError: fmt.Errorf("invalid msin: 00000000010, msin should be 10 digits"),
+		plmnLen:       5,
+		expectedError: fmt.Errorf("invalid msin: 00000000010, plmn + msin should be 10-15 digits, current 16 digits"),
+	},
+	{
+		name:          "testInvalidMsin 6 plmnLen",
+		msin:          "0000000001",
+		plmnLen:       6,
+		expectedError: fmt.Errorf("invalid msin: 0000000001, plmn + msin should be 10-15 digits, current 16 digits"),
 	},
 	{
 		name:          "testInvalidNonIntMsin",
 		msin:          "000000000a",
+		plmnLen:       5,
 		expectedError: fmt.Errorf("invalid int string: 000000000a"),
 	},
 }
@@ -223,7 +239,7 @@ var testValidateMsinCases = []struct {
 func TestValidateMsin(t *testing.T) {
 	for _, testCase := range testValidateMsinCases {
 		t.Run(testCase.name, func(t *testing.T) {
-			err := util.ValidateMsin(testCase.msin)
+			err := util.ValidateMsin(testCase.msin, testCase.plmnLen)
 			assert.Equal(t, testCase.expectedError, err)
 		})
 	}

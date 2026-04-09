@@ -78,11 +78,11 @@ func ValidatePlmnId(plmnId *model.PlmnIdIE) error {
 	return nil
 }
 
-func ValidateMsin(msin string) error {
-	if len(msin) != 10 {
-		return fmt.Errorf("invalid msin: %s, msin should be 10 digits", msin)
+func ValidateMsin(msin string, plmnLen int) error {
+	if len(msin)+plmnLen < 10 || len(msin)+plmnLen > 15 {
+		return fmt.Errorf("invalid msin: %s, plmn + msin should be 10-15 digits, current %d digits", msin, len(msin)+plmnLen)
 	}
-	if err := ValidateIntStringWithLength(msin, 10); err != nil {
+	if err := ValidateIntStringWithLength(msin, 15-plmnLen); err != nil {
 		return err
 	}
 	return nil
@@ -199,7 +199,7 @@ func ValidateUeIe(ueIe *model.UeIE) error {
 	if err := ValidatePlmnId(&ueIe.PlmnId); err != nil {
 		return fmt.Errorf("invalid ue plmn id, %s", err.Error())
 	}
-	if err := ValidateMsin(ueIe.Msin); err != nil {
+	if err := ValidateMsin(ueIe.Msin, len(ueIe.PlmnId.Mcc)+len(ueIe.PlmnId.Mnc)); err != nil {
 		return fmt.Errorf("invalid ue msin, %s", err.Error())
 	}
 
