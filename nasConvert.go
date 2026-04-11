@@ -26,14 +26,7 @@ func encodePlmn(mcc, mnc string) []byte {
 }
 
 func encodeMsin(msin string) []byte {
-	// always take 12 digits
-	if len(msin) < 14 {
-		for i := len(msin); i < 14; i++ {
-			msin = "0" + msin
-		}
-	}
-
-	result := make([]byte, len(msin)/2)
+	result := make([]byte, (len(msin)+1)/2)
 
 	for i := 0; i < len(msin); i += 2 {
 		var d1, d2 uint8
@@ -44,11 +37,15 @@ func encodeMsin(msin string) []byte {
 		}
 		d1 = uint8(tmpD1)
 
-		tmpD2, err := strconv.Atoi(string(msin[i+1]))
-		if err != nil {
-			panic(err)
+		if i+1 < len(msin) {
+			tmpD2, err := strconv.Atoi(string(msin[i+1]))
+			if err != nil {
+				panic(err)
+			}
+			d2 = uint8(tmpD2)
+		} else {
+			d2 = 0x0f
 		}
-		d2 = uint8(tmpD2)
 
 		result[i/2] = (d2 << 4) | d1
 	}
@@ -71,7 +68,7 @@ func SupiToBytes(mccLength, mncLength int, supi string) []byte {
 	// Byte 0: SUPI Type (0x01 = IMSI)
 	buffer = append(buffer, 0x01)
 
-	// Bytes 1-3: MCC + MNC 編碼
+	// Bytes 1-3: MCC + MNC code
 	buffer = append(buffer, plmnBytes...)
 
 	// Byte 4: Routing Indicator (0xf0)
