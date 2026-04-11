@@ -1,6 +1,8 @@
 package util
 
-import "strconv"
+import (
+	"strconv"
+)
 
 func encodePlmn(mcc, mnc string) []byte {
 	// 3GPP PLMN encoding:
@@ -71,14 +73,16 @@ func SupiToBytes(mccLength, mncLength int, supi string) []byte {
 	// Bytes 1-3: MCC + MNC code
 	buffer = append(buffer, plmnBytes...)
 
-	// Byte 4: Routing Indicator (0xf0)
-	buffer = append(buffer, 0xf0)
+	// Bytes 4-5: Routing Indicator (0000)
+	buffer = append(buffer, 0x00, 0x00)
 
-	// Byte 5: Protection Scheme ID (f) + Home Network PKI (f)
-	// use null protection scheme
-	buffer = append(buffer, 0xff)
+	// Byte 6: Protection Scheme ID (0x00 = null scheme)
+	buffer = append(buffer, 0x00)
 
-	// Add MSIN BCD encoded
+	// Byte 7: Home Network Public Key Identifier (0x00 for null scheme)
+	buffer = append(buffer, 0x00)
+
+	// Bytes 8+: Scheme output (MSIN for null scheme)
 	buffer = append(buffer, msinBytes...)
 
 	return buffer
