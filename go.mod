@@ -7,7 +7,7 @@ require (
 	github.com/free-ran-ue/free-ran-ue/v2 v2.3.12
 	github.com/free5gc/nas v1.2.2
 	github.com/free5gc/ngap v1.1.2
-	github.com/free5gc/openapi v1.2.3
+	github.com/free5gc/openapi v1.2.4
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-playground/assert v1.2.1
 	github.com/go-playground/assert/v2 v2.2.0
