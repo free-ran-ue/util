@@ -3,7 +3,7 @@ module github.com/free-ran-ue/util
 go 1.26.2
 
 require (
-	github.com/Alonza0314/logger-go/v2 v2.0.5
+	github.com/Alonza0314/logger-go/v2 v2.1.0
 	github.com/free-ran-ue/free-ran-ue/v2 v2.4.2
 	github.com/free5gc/nas v1.2.3
 	github.com/free5gc/ngap v1.1.3
