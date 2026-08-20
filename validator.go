@@ -90,7 +90,7 @@ func ValidateMsin(msin string, plmnLen int) error {
 
 func ValidateAccessType(accessType models.AccessType) error {
 	switch accessType {
-	case models.AccessType__3_GPP_ACCESS:
+	case models.AccessType_3_GPP_ACCESS:
 		return nil
 	case models.AccessType_NON_3_GPP_ACCESS:
 		return fmt.Errorf("unsupported access type: %s", accessType)
