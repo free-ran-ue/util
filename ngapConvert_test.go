@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/free-ran-ue/util"
-	"github.com/free5gc/ngap/ngapType"
+	"github.com/free5gc/ngap/ie"
 	"github.com/free5gc/openapi/models"
 	"github.com/go-playground/assert/v2"
 )
@@ -12,7 +12,7 @@ import (
 var testPlmnIdCases = []struct {
 	name         string
 	modelsPlmnId models.PlmnId
-	ngapPlmnId   ngapType.PLMNIdentity
+	ngapPlmnId   ie.PLMNIdentity
 }{
 	{
 		name: "testPlmnId",
@@ -20,7 +20,7 @@ var testPlmnIdCases = []struct {
 			Mcc: "208",
 			Mnc: "93",
 		},
-		ngapPlmnId: ngapType.PLMNIdentity{
+		ngapPlmnId: ie.PLMNIdentity{
 			Value: []byte{0x02, 0xF8, 0x39},
 		},
 	},
@@ -41,7 +41,7 @@ func TestPlmnIdToModels(t *testing.T) {
 var testTaiCases = []struct {
 	name      string
 	modelsTai models.Tai
-	ngapTai   ngapType.TAI
+	ngapTai   ie.TAI
 }{
 	{
 		name: "testTai",
@@ -52,11 +52,11 @@ var testTaiCases = []struct {
 			},
 			Tac: "000001",
 		},
-		ngapTai: ngapType.TAI{
-			PLMNIdentity: ngapType.PLMNIdentity{
+		ngapTai: ie.TAI{
+			PLMNIdentity: &ie.PLMNIdentity{
 				Value: []byte{0x02, 0xF8, 0x39},
 			},
-			TAC: ngapType.TAC{
+			TAC: &ie.TAC{
 				Value: []byte{0x00, 0x00, 0x01},
 			},
 		},
@@ -78,7 +78,7 @@ func TestTaiToModels(t *testing.T) {
 var testSnssaiCases = []struct {
 	name         string
 	modelsSnssai models.Snssai
-	ngapSnssai   ngapType.SNSSAI
+	ngapSnssai   ie.SNSSAI
 }{
 	{
 		name: "testSnssai",
@@ -86,11 +86,11 @@ var testSnssaiCases = []struct {
 			Sst: 1,
 			Sd:  "010203",
 		},
-		ngapSnssai: ngapType.SNSSAI{
-			SST: ngapType.SST{
+		ngapSnssai: ie.SNSSAI{
+			SST: &ie.SST{
 				Value: []byte{0x01},
 			},
-			SD: &ngapType.SD{
+			SD: &ie.SD{
 				Value: []byte{0x01, 0x02, 0x03},
 			},
 		},

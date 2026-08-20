@@ -1,14 +1,14 @@
 package util
 
 import (
-	"fmt"
+	"net"
 
 	"github.com/free-ran-ue/free-ran-ue/v2/logger"
-	"github.com/free5gc/nas/nasType"
+	"github.com/free5gc/nas/ie"
 )
 
 func GetQosRule(ruleBytes []byte, logger *logger.UeLogger) []string {
-	var rules nasType.QoSRules
+	var rules ie.QosRules
 	if err := rules.UnmarshalBinary(ruleBytes); err != nil {
 		logger.PduLog.Warnf("unmarshal qos rules failed: %+v", err)
 		return nil
@@ -16,20 +16,18 @@ func GetQosRule(ruleBytes []byte, logger *logger.UeLogger) []string {
 
 	qosRules := make([]string, 0)
 
-	for _, r := range rules {
-		for _, p := range r.PacketFilterList {
-			for _, c := range p.Components {
-				switch c.Type() {
-				case nasType.PacketFilterComponentTypeMatchAll:
-				case nasType.PacketFilterComponentTypeIPv4RemoteAddress:
-					value := c.(*nasType.PacketFilterIPv4RemoteAddress)
-					ip := value.Address.String()
-					maskLen, _ := value.Mask.Size()
-					qosRules = append(qosRules, fmt.Sprintf("%s/%d", ip, maskLen))
-				default:
-					logger.PduLog.Warnf("unsupported qos rule component type: %d", c.Type())
-				}
+	for _, r := range rules.Rules {
+		for _, p := range r.PktFilterList {
+			contents := p.Contents
+			if contents.MatchAll {
+				continue
 			}
+			ip, _, err := net.ParseCIDR(contents.RemoteAddr)
+			if err != nil || ip.To4() == nil {
+				logger.PduLog.Warnf("unsupported qos rule packet filter contents: %+v", contents)
+				continue
+			}
+			qosRules = append(qosRules, contents.RemoteAddr)
 		}
 	}
 
