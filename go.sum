@@ -11,8 +11,8 @@ github.com/cloudwego/base64x v0.1.6/go.mod h1:OFcloc187FXDaYHvrNIjxSe8ncn0OOM8gE
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/free-ran-ue/free-ran-ue/v2 v2.4.4 h1:YyQoY0KzHIVR66FNk36/qLSRQtevrlm9LcTm+OsWqqk=
-github.com/free-ran-ue/free-ran-ue/v2 v2.4.4/go.mod h1:Nrq6Wv2tdpByeMMA1pyH+oqLTjg8ku3YeKKCdUlWb48=
+github.com/free-ran-ue/free-ran-ue/v2 v2.5.0 h1:ZKrSbBTp8Aag7aCPqnyqSKK8qDYxtD4SgurssJ/zRgs=
+github.com/free-ran-ue/free-ran-ue/v2 v2.5.0/go.mod h1:f+HWzyvmQ1wf4iYWoPwxsZ+la2HOlr9wfSDp/f1/obo=
 github.com/free5gc/nas v1.3.0 h1:r42lNApvMtAwaHwpb50ZpOXZabGaQvFRy/q3JxS0o/g=
 github.com/free5gc/nas v1.3.0/go.mod h1:T/krdGjxSut+MQJAFFBS4lsWZa/NPEz7wO0G/D3qHeE=
 github.com/free5gc/ngap v1.2.0 h1:tZPokNiF/J97dmq0DVATcE1lZi7stCo7LZaosSB8otQ=
