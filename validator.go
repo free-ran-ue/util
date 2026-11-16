@@ -45,6 +45,20 @@ func ValidateIp(ip string) error {
 	return nil
 }
 
+func ValidateN2IpList(ipList []string) error {
+    if len(ipList) == 0 {
+        return fmt.Errorf("IP list must contain at least one address")
+    }
+
+    for i, ip := range ipList {
+        if err := ValidateIp(ip); err != nil {
+            return fmt.Errorf("IP list item %d (%q): %w",i+1,ip,err)
+        }
+    }
+
+    return nil
+}
+
 func ValidatePort(port int) error {
 	if port < 1 || port > 65535 {
 		return fmt.Errorf("invalid port range: %d, range should be 1-65535", port)
@@ -292,10 +306,10 @@ func ValidateXnInterfaceIe(xnIe *model.XnInterfaceIE) error {
 }
 
 func ValidateGnbIe(gnbIe *model.GnbIE) error {
-	if err := ValidateIp(gnbIe.AmfN2Ip); err != nil {
+	if err := ValidateN2IpList(gnbIe.AmfN2Ip); err != nil {
 		return fmt.Errorf("invalid gnb amfN2Ip: %s", err.Error())
 	}
-	if err := ValidateIp(gnbIe.RanN2Ip); err != nil {
+	if err := ValidateN2IpList(gnbIe.RanN2Ip); err != nil {
 		return fmt.Errorf("invalid gnb ranN2Ip: %s", err.Error())
 	}
 	if err := ValidateIp(gnbIe.UpfN3Ip); err != nil {
