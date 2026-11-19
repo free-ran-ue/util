@@ -46,17 +46,17 @@ func ValidateIp(ip string) error {
 }
 
 func ValidateN2IpList(ipList []string) error {
-    if len(ipList) == 0 {
-        return fmt.Errorf("IP list must contain at least one address")
-    }
+	if len(ipList) == 0 {
+		return fmt.Errorf("IP list must contain at least one address")
+	}
 
-    for i, ip := range ipList {
-        if err := ValidateIp(ip); err != nil {
-            return fmt.Errorf("IP list item %d (%q): %w",i+1,ip,err)
-        }
-    }
+	for i, ip := range ipList {
+		if err := ValidateIp(ip); err != nil {
+			return fmt.Errorf("IP list item %d (%q): %w", i+1, ip, err)
+		}
+	}
 
-    return nil
+	return nil
 }
 
 func ValidatePort(port int) error {

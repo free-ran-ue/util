@@ -217,9 +217,9 @@ var testValidateMsinCases = []struct {
 		expectedError: nil,
 	},
 	{
-		name: "testValidMsin totol 14 digits with plmnLen 5",
-		msin: "000000001",
-		plmnLen: 5,
+		name:          "testValidMsin totol 14 digits with plmnLen 5",
+		msin:          "000000001",
+		plmnLen:       5,
 		expectedError: nil,
 	},
 	{
@@ -911,8 +911,8 @@ func TestValidateXnInterfaceIe(t *testing.T) {
 // baseGnbIeConfig returns a base GnbIE configuration for testing
 func baseGnbIeConfig() model.GnbIE {
 	return model.GnbIE{
-		AmfN2Ip:             "10.0.1.1",
-		RanN2Ip:             "10.0.1.2",
+		AmfN2Ip:             model.N2IPList{"10.0.1.1"},
+		RanN2Ip:             model.N2IPList{"10.0.1.2"},
 		UpfN3Ip:             "10.0.1.1",
 		RanN3Ip:             "10.0.1.2",
 		RanControlPlaneIp:   "10.0.2.1",
