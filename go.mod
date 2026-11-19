@@ -49,3 +49,5 @@ require (
 	golang.org/x/text v0.37.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 )
+
+replace github.com/free-ran-ue/free-ran-ue/v2 => github.com/joshhandsome/free-ran-ue/v2 v2.0.0-20261116143210-f2e1b660c101
