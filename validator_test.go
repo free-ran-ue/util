@@ -893,6 +893,25 @@ var testValidateXnInterfaceIeCases = []struct {
 		},
 		expectedError: fmt.Errorf("invalid xnDialPort: invalid port range: 0, range should be 1-65535"),
 	},
+	{
+		name: "testValidXnInterfaceIeWithoutDial",
+		xn: model.XnInterfaceIE{
+			Enable:       true,
+			XnListenIp:   "10.0.1.3",
+			XnListenPort: 31415,
+		},
+		expectedError: nil,
+	},
+	{
+		name: "testInvalidXnDialIpMissing",
+		xn: model.XnInterfaceIE{
+			Enable:       true,
+			XnListenIp:   "10.0.1.3",
+			XnListenPort: 31415,
+			XnDialPort:   31415,
+		},
+		expectedError: fmt.Errorf("invalid xnDialIp: invalid ip address: "),
+	},
 }
 
 func TestValidateXnInterfaceIe(t *testing.T) {
@@ -988,6 +1007,34 @@ var testValidateGnbIeCases = []struct {
 			return gnbIe
 		}(),
 		expectedError: nil,
+	},
+	{
+		name: "testDcDynamicgNBWithoutDial",
+		gnbIe: func() model.GnbIE {
+			gnbIe := baseGnbIeConfig()
+			gnbIe.StaticNrdc = false
+			gnbIe.XnInterface = model.XnInterfaceIE{
+				Enable:       true,
+				XnListenIp:   "10.0.1.2",
+				XnListenPort: 31415,
+			}
+			return gnbIe
+		}(),
+		expectedError: nil,
+	},
+	{
+		name: "testDcStaticgNBWithoutDial",
+		gnbIe: func() model.GnbIE {
+			gnbIe := baseGnbIeConfig()
+			gnbIe.StaticNrdc = true
+			gnbIe.XnInterface = model.XnInterfaceIE{
+				Enable:       true,
+				XnListenIp:   "10.0.1.2",
+				XnListenPort: 31415,
+			}
+			return gnbIe
+		}(),
+		expectedError: fmt.Errorf("invalid gnb xnInterface: xnDialIp and xnDialPort are required for static NRDC"),
 	},
 }
 

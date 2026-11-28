@@ -281,6 +281,12 @@ func ValidateXnInterfaceIe(xnIe *model.XnInterfaceIE) error {
 	if err := ValidatePort(xnIe.XnListenPort); err != nil {
 		return fmt.Errorf("invalid xnListenPort: %s", err.Error())
 	}
+
+	// the Xn dial target is optional: only static NRDC dials it from the config (see ValidateGnbIe),
+	// other Xn procedures get their dial target from the API trigger
+	if xnIe.XnDialIp == "" && xnIe.XnDialPort == 0 {
+		return nil
+	}
 	if err := ValidateIp(xnIe.XnDialIp); err != nil {
 		return fmt.Errorf("invalid xnDialIp: %s", err.Error())
 	}
@@ -352,6 +358,9 @@ func ValidateGnbIe(gnbIe *model.GnbIE) error {
 
 	if err := ValidateXnInterfaceIe(&gnbIe.XnInterface); err != nil {
 		return fmt.Errorf("invalid gnb xnInterface: %s", err.Error())
+	}
+	if gnbIe.StaticNrdc && gnbIe.XnInterface.Enable && gnbIe.XnInterface.XnDialIp == "" && gnbIe.XnInterface.XnDialPort == 0 {
+		return fmt.Errorf("invalid gnb xnInterface: xnDialIp and xnDialPort are required for static NRDC")
 	}
 
 	return nil
