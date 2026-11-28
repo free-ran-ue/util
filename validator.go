@@ -157,16 +157,9 @@ func ValidatePduSession(pduSession *model.PduSessionIE) error {
 	return nil
 }
 
+// ValidateNrdc validates the UE NR-DC configuration. The secondary gNB data plane address is not configured:
+// the gNB sends it to the UE in the tunnel update message, so only the optional local data plane IP is checked.
 func ValidateNrdc(nrdc *model.NrdcIE) error {
-	if !nrdc.Enable {
-		return nil
-	}
-	if err := ValidateIp(nrdc.DcRanDataPlane.Ip); err != nil {
-		return fmt.Errorf("invalid nrdc dc ran data plane ip, %s", err.Error())
-	}
-	if err := ValidatePort(nrdc.DcRanDataPlane.Port); err != nil {
-		return fmt.Errorf("invalid nrdc dc ran data plane port, %s", err.Error())
-	}
 	if nrdc.DcLocalDataPlaneIp != "" {
 		if err := ValidateIp(nrdc.DcLocalDataPlaneIp); err != nil {
 			return fmt.Errorf("invalid nrdc dc local data plane ip, %s", err.Error())

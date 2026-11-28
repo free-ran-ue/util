@@ -526,56 +526,19 @@ var testValidateNrdcCases = []struct {
 	expectedError error
 }{
 	{
-		name: "testValidEnableNrdc",
-		nrdc: model.NrdcIE{
-			Enable: true,
-			DcRanDataPlane: model.DcDataPlaneIE{
-				Ip:   "10.0.3.1",
-				Port: 31414,
-			},
-		},
+		name:          "testValidNrdcWithLocalDataPlaneIp",
+		nrdc:          model.NrdcIE{DcLocalDataPlaneIp: "10.0.3.2"},
 		expectedError: nil,
 	},
 	{
-		name: "testValidEnableNrdcWithLocalDataPlaneIp",
-		nrdc: model.NrdcIE{
-			Enable: true,
-			DcRanDataPlane: model.DcDataPlaneIE{
-				Ip:   "10.0.3.1",
-				Port: 31414,
-			},
-			DcLocalDataPlaneIp: "10.0.3.2",
-		},
+		name:          "testValidNrdcWithoutLocalDataPlaneIp",
+		nrdc:          model.NrdcIE{},
 		expectedError: nil,
 	},
 	{
-		name: "testValidDisableNrdc",
-		nrdc: model.NrdcIE{
-			Enable: false,
-		},
-		expectedError: nil,
-	},
-	{
-		name: "testInvalidIpNrdc",
-		nrdc: model.NrdcIE{
-			Enable: true,
-			DcRanDataPlane: model.DcDataPlaneIE{
-				Ip:   "10.0.3.1.1",
-				Port: 31414,
-			},
-		},
-		expectedError: fmt.Errorf("invalid nrdc dc ran data plane ip, invalid ip address: 10.0.3.1.1"),
-	},
-	{
-		name: "testInvalidPortNrdc",
-		nrdc: model.NrdcIE{
-			Enable: true,
-			DcRanDataPlane: model.DcDataPlaneIE{
-				Ip:   "10.0.3.1",
-				Port: 0,
-			},
-		},
-		expectedError: fmt.Errorf("invalid nrdc dc ran data plane port, invalid port range: 0, range should be 1-65535"),
+		name:          "testInvalidNrdcLocalDataPlaneIp",
+		nrdc:          model.NrdcIE{DcLocalDataPlaneIp: "10.0.3.2.1"},
+		expectedError: fmt.Errorf("invalid nrdc dc local data plane ip, invalid ip address: 10.0.3.2.1"),
 	},
 }
 
@@ -641,33 +604,11 @@ var testValidateUeIeCases = []struct {
 		expectedError: nil,
 	},
 	{
-		name: "testValidStaticNrdcUeIe",
+		name: "testValidNrdcUeIe",
 		ueIe: func() model.UeIE {
 			ueIe := baseUeIeConfig()
 			ueIe.LocalDataPlaneIp = "10.0.2.2"
 			ueIe.Nrdc = model.NrdcIE{
-				Enable: true,
-				DcRanDataPlane: model.DcDataPlaneIE{
-					Ip:   "10.0.3.1",
-					Port: 31414,
-				},
-				DcLocalDataPlaneIp: "10.0.3.2",
-			}
-			return ueIe
-		}(),
-		expectedError: nil,
-	},
-	{
-		name: "testValidDynamicNrdcUeIe",
-		ueIe: func() model.UeIE {
-			ueIe := baseUeIeConfig()
-			ueIe.LocalDataPlaneIp = "10.0.2.2"
-			ueIe.Nrdc = model.NrdcIE{
-				Enable: false,
-				DcRanDataPlane: model.DcDataPlaneIE{
-					Ip:   "10.0.3.1",
-					Port: 31414,
-				},
 				DcLocalDataPlaneIp: "10.0.3.2",
 			}
 			return ueIe
